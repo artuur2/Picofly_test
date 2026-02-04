@@ -21,11 +21,11 @@ void pins_setup(void)
 	*(uint32_t*)(0x4001c000 + 4 + PIN_RST*4 + 0x2000) = 0x81;
 }
 
-// overclock setup
+// use conservative clock/voltage settings to avoid stressing hardware
 void oc_setup(void)
 {
-	vreg_set_voltage(VREG_VOLTAGE_1_30);
-	set_sys_clock_khz(200000, true);
+	vreg_set_voltage(VREG_VOLTAGE_1_10);
+	set_sys_clock_khz(125000, true);
 }
 
 void zzz() {
