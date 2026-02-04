@@ -55,8 +55,8 @@ void init_glitch_pio() {
     for (int i = PIN_CLK; i <= PIN_DAT; i++)
     {
         gpio_init(i);
-        gpio_enable_input_output(i);
-        gpio_pull_up(i);
+        gpio_set_dir(i, GPIO_IN);
+        gpio_disable_pulls(i);
     }
     gpio_init(gli_pin());
     init_gsniff_pio();

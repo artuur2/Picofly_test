@@ -21,10 +21,10 @@
 
 bool write_payload();
 
-// overclock to 300 MHz
+// use conservative clock/voltage settings to avoid stressing hardware
 void init_system() {
-    vreg_set_voltage(VREG_VOLTAGE_1_30);
-	set_sys_clock_khz(300000, true);
+    vreg_set_voltage(VREG_VOLTAGE_1_10);
+	set_sys_clock_khz(125000, true);
 }
 
 // filled within "fast check" on eMMC init
@@ -41,11 +41,13 @@ void rewrite_payload()
 
 bool safe_test_voltage(int pin, float target, float range)
 {
-    gpio_enable_input_output(pin);
+    gpio_init(pin);
+    gpio_set_dir(pin, GPIO_IN);
+    gpio_disable_pulls(pin);
     adc_gpio_init(pin);
     adc_select_input(pin - 26);
     uint16_t result = adc_read();
-    gpio_disable_input_output(pin);
+    gpio_deinit(pin);
     float voltage = result * 3.3f / (1 << 12);
     return voltage >= (target - range) && voltage <= (target + range);
 }
