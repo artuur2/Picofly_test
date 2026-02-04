@@ -425,7 +425,7 @@ bool mmc_initialize() {
         if (!simple_cmd_exec_with_ret(mmc_init_table[i], mmc_init_table[i+1], &res)) {
             return false;
         }
-        if (res & mmc_init_table[i+2] != mmc_init_table[i+3]) {
+        if ((res & mmc_init_table[i+2]) != mmc_init_table[i+3]) {
             return false;
         }
     }
